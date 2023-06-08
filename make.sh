@@ -4,7 +4,7 @@ mkdir ~/scripts
 cp update.sh ~/scripts
 
 touch ~/.bash_aliases
-if ! grep "alias update" .bash_aliases; then
+if ! grep "alias update" ~/.bash_aliases; then
     echo "alias update='bash ~/scripts/update.sh'" >> ~/.bash_aliases
 fi
 
