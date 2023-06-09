@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DIR=$(dirname $0)
 DEST=~/scripts
 SCRIPT=update.sh
 
@@ -8,8 +9,8 @@ SCRIPT=update.sh
   mkdir $DEST && echo " Done"
 }
 [ -f $DEST/$SCRIPT ] && echo "$DEST/$SCRIPT exists." || {
-  echo -n "Copying $SCRIPT in $DEST..."
-  cp $SCRIPT $DEST && echo " Done"
+  echo -n "Copying $DIR/$SCRIPT in $DEST..."
+  cp $DIR/$SCRIPT $DEST && echo " Done"
 }
 
 ALIASFILE=~/.bash_aliases
@@ -23,5 +24,7 @@ grep "alias update" $ALIASFILE 1>/dev/null && echo "alias already set." || {
   echo -n "Adding alias to $ALIASFILE..."
   echo $ALIAS >>$ALIASFILE && echo " Done"
 }
-echo -n "Removing $PWD..."
-rm -rf ../my_linux_script && echo " Done"
+echo -n "Removing $DIR/$SCRIPT..."
+rm $DIR/$SCRIPT && echo " Done"
+echo -n "Removing $0..."
+rm $0... && echo " Done"
