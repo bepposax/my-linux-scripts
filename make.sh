@@ -24,7 +24,5 @@ grep "alias update" $ALIASFILE 1>/dev/null && echo "alias already set." || {
   echo -n "Adding alias to $ALIASFILE..."
   echo $ALIAS >>$ALIASFILE && echo " Done"
 }
-echo -n "Removing $DIR/$SCRIPT..."
-rm $DIR/$SCRIPT && echo " Done"
-echo -n "Removing $0..."
-rm $0... && echo " Done"
+echo -n "Removing $DIR..."
+rm -rf $DIR && echo " Done"
