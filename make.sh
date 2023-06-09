@@ -1,11 +1,27 @@
 #!/bin/bash
 
-ls ~/scripts &>/dev/null || mkdir ~/scripts
-ls ~/scripts | grep update.sh &>/dev/null || mv update.sh ~/scripts
+DEST=~/scripts
+SCRIPT=update.sh
 
-ls -A ~ | grep .bash_aliases &>/dev/null || touch ~/.bash_aliases
-if ! grep "alias update" ~/.bash_aliases &>/dev/null; then
-  echo "alias update='bash ~/scripts/update.sh'"  >> ~/.bash_aliases
-fi
+[ -d $DEST ] && echo "$DEST exists." || {
+  echo -n "Creating $DEST..."
+  mkdir $DEST && echo " Done"
+}
+[ -f $DEST/$SCRIPT ] && echo "$DEST/$SCRIPT exists." || {
+  echo -n "Copying $SCRIPT in $DEST..."
+  cp $SCRIPT $DEST && echo " Done"
+}
 
-rm -rf ../my_linux_scripts
+ALIASFILE=~/.bash_aliases
+ALIAS="alias update='bash $DEST/$SCRIPT'"
+
+[ -f $ALIASFILE ] && echo "$ALIASFILE exists." || {
+  echo -n "Creating $ALIASFILE..."
+  touch $ALIASFILE && echo " Done"
+}
+grep "alias update" $ALIASFILE 1>/dev/null && echo "alias already set." || {
+  echo -n "Adding alias to $ALIASFILE..."
+  echo $ALIAS >>$ALIASFILE && echo " Done"
+}
+echo -n "Removing $PWD..."
+rm -rf ../my_linux_script && echo " Done"
