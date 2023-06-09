@@ -1,11 +1,11 @@
 #!/bin/bash
 
-ls ~/scripts 2>/dev/null || mkdir ~/scripts;
-ls ~/scripts | grep update.sh || mv update.sh ~/scripts;
+ls ~/scripts &>/dev/null || mkdir ~/scripts
+ls ~/scripts | grep update.sh &>/dev/null || mv update.sh ~/scripts
 
-ls ~ | grep ~/.bash_aliases 1>/dev/null || touch ~/.bash_aliases;
-if ! grep "alias update" ~/.bash_aliases; then
-  echo "alias update='bash ~/scripts/update.sh'" &>/dev/null >> ~/.bash_aliases
-fi;
+ls ~ | grep ~/.bash_aliases  || touch ~/.bash_aliases
+if ! grep "alias update" ~/.bash_aliases &>/dev/null; then
+  echo "alias update='bash ~/scripts/update.sh'"  >> ~/.bash_aliases
+fi
 
-rm -rf ../my_linux_scripts && cd ..
+rm -rf ../my_linux_scripts
