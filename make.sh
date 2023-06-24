@@ -46,7 +46,7 @@ CMDFILE=~/.bashrc
 }
 ((${BASH_VERSION:0:1} >= 4)) && {
   CMDDOC="# sets the number of trailing directories to retain in the PS1 prompt"
-  CMD="PROMPT_DIRTRIM=1"
+  CMD="PROMPT_DIRTRIM=2"
 
   # adds CMD to ~/.bashrc if it isn't set
   grep $CMD $CMDFILE 1>/dev/null && echo "$CMD already set. Skipping..." || {
