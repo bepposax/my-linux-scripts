@@ -41,6 +41,7 @@ CMDFILE=~/.bashrc
 # checking bash version...
 ((${BASH_VERSION:0:1} < 4)) && {
   echo "Upgrading bash version..."
+  sudo apt-get autoclean
   sudo apt-get install --only-upgrade bash
 }
 ((${BASH_VERSION:0:1} >= 4)) && {
