@@ -31,7 +31,7 @@ grep "alias update" $ALIASFILE 1>/dev/null && echo "alias already set. Skipping.
 
 CMDFILE=~/.bashrc
 
-if ((${BASH_VERSION:0:1} > 4)); then
+if ((${BASH_VERSION:0:1} >= 4)); then
   CMD="PROMPT_DIRTRIM=1"
 
   # adds CMD to .bashrc if it isn't set
