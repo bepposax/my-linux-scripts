@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# disable MOTD
+touch ~/.hushlogin
+
+# adding the update script...
 DIR=$(dirname $0)
 DEST=~/scripts
 SCRIPT=update.sh
@@ -15,6 +19,7 @@ SCRIPT=update.sh
   cp $DIR/$SCRIPT $DEST && echo " Done"
 }
 
+# setting alias to run the update script...
 ALIASFILE=~/.bash_aliases
 ALIAS="alias update='bash $DEST/$SCRIPT'"
 
@@ -29,19 +34,20 @@ grep "alias update" $ALIASFILE 1>/dev/null && echo "alias already set. Skipping.
   echo $ALIAS >>$ALIASFILE && echo " Done"
 }
 
+# adding command to ~/.bashrc...
 CMDFILE=~/.bashrc
 
 if ((${BASH_VERSION:0:1} >= 4)); then
   CMD="PROMPT_DIRTRIM=1"
 
-  # adds CMD to .bashrc if it isn't set
+  # adds CMD to ~/.bashrc if it isn't set
   grep $CMD $CMDFILE 1>/dev/null && echo "$CMD already set. Skipping..." || {
     echo -n "Adding $CMD to $CMDFILE..."
     echo -e "\n# sets the number of trailing directories to retain in PS1\n$CMD" >>$CMDFILE && echo " Done"
   }
 fi
 
-# removes the folder containing this file
+# removing the folder containing this file
 [[ $DIR == . ]] && {
   echo -n "Removing $PWD..."
   rm -rf $PWD && echo " Done"
@@ -50,4 +56,4 @@ fi
   rm -rf $DIR && echo " Done"
 }
 
-echo "Restart the shell for changes to take effect."
+echo "Restart the terminal for changes to take effect."
