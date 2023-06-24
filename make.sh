@@ -1,10 +1,11 @@
 #!/bin/bash
 
+DIR=$(dirname $0)
+
 # disable MOTD
 touch ~/.hushlogin
 
 # adding the update script...
-DIR=$(dirname $0)
 DEST=~/scripts
 SCRIPT=update.sh
 
@@ -38,16 +39,17 @@ grep "alias update" $ALIASFILE 1>/dev/null && echo "alias already set. Skipping.
 CMDFILE=~/.bashrc
 
 if ((${BASH_VERSION:0:1} >= 4)); then
+  CMDDOC="# sets the number of trailing directories to retain in the PS1 prompt"
   CMD="PROMPT_DIRTRIM=1"
 
   # adds CMD to ~/.bashrc if it isn't set
   grep $CMD $CMDFILE 1>/dev/null && echo "$CMD already set. Skipping..." || {
     echo -n "Adding $CMD to $CMDFILE..."
-    echo -e "\n# sets the number of trailing directories to retain in PS1\n$CMD" >>$CMDFILE && echo " Done"
+    echo -e "\n$CMDDOC\n$CMD" >>$CMDFILE && echo " Done"
   }
 fi
 
-# removing the folder containing this file
+# removing the folder containing this file...
 [[ $DIR == . ]] && {
   echo -n "Removing $PWD..."
   rm -rf $PWD && echo " Done"
