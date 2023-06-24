@@ -38,7 +38,12 @@ grep "alias update" $ALIASFILE 1>/dev/null && echo "alias already set. Skipping.
 # adding command to ~/.bashrc...
 CMDFILE=~/.bashrc
 
-if ((${BASH_VERSION:0:1} >= 4)); then
+# checking bash version...
+((${BASH_VERSION:0:1} < 4)) && {
+  echo "Upgrading bash version..."
+  sudo apt-get install --only-upgrade bash
+}
+((${BASH_VERSION:0:1} >= 4)) && {
   CMDDOC="# sets the number of trailing directories to retain in the PS1 prompt"
   CMD="PROMPT_DIRTRIM=1"
 
@@ -47,7 +52,7 @@ if ((${BASH_VERSION:0:1} >= 4)); then
     echo -n "Adding $CMD to $CMDFILE..."
     echo -e "\n$CMDDOC\n$CMD" >>$CMDFILE && echo " Done"
   }
-fi
+}
 
 # removing the folder containing this file...
 [[ $DIR == . ]] && {
