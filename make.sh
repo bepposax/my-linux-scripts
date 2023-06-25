@@ -55,15 +55,15 @@ BASHRC=~/.bashrc
   }
 }
 
-# changing mirrors in /etc/apt/sources.list to .it mirrors...
+# changing mirrors in /etc/apt/sources.list to ".it" mirrors...
 SRCLST="/etc/apt/sources.list"
 REPLACE="deb http://it.archive"
 
-# sets .it mirrors only if they're not .it mirrors
+# sets ".it" mirrors only if they're not ".it" mirrors
 grep "$REPLACE" $SRCLST 1>/dev/null &&
   echo "Mirrors in $SRCLST already set. Skipping..." ||
   {
-    # assign to find whatever mirror is saved in the file
+    # assigns to FIND whichever mirror substring to replace is saved in SRCLST
     FIND=$(grep -Eom 1 "^deb http://([a-z]{2}.)?archive" $SRCLST)
     CONTENT=$(<"$SRCLST")
     CONTENT=${CONTENT//$FIND/$REPLACE}
