@@ -10,12 +10,12 @@ DEST=~/scripts
 SCRIPT=update.sh
 
 # creates DEST if it doesn't exist
-[ -d $DEST ] && echo "$DEST exists. Skipping..." || {
+[ -d $DEST ] && echo "$DEST exists. Skipping" || {
   echo -n "Creating $DEST..."
   mkdir $DEST && echo " Done"
 }
 # copies SCRIPT file in DEST if it doesn't exist
-[ -f $DEST/$SCRIPT ] && echo "$DEST/$SCRIPT exists. Skipping..." || {
+[ -f $DEST/$SCRIPT ] && echo "$DEST/$SCRIPT exists. Skipping" || {
   echo -n "Copying $DIR/$SCRIPT in $DEST..."
   cp $DIR/$SCRIPT $DEST && echo " Done"
 }
@@ -25,12 +25,12 @@ ALIASFILE=~/.bash_aliases
 ALIAS="alias update='bash $DEST/$SCRIPT'"
 
 # creates ALIASFILE if it doesnìt exist
-[ -f $ALIASFILE ] && echo "$ALIASFILE exists. Skipping..." || {
+[ -f $ALIASFILE ] && echo "$ALIASFILE exists. Skipping" || {
   echo -n "Creating $ALIASFILE..."
   touch $ALIASFILE && echo " Done"
 }
 # adds the ALIAS line inside ALIASFILE if it doesn't exist
-grep "alias update" $ALIASFILE 1>/dev/null && echo "alias already set. Skipping..." || {
+grep "alias update" $ALIASFILE 1>/dev/null && echo "alias already set. Skipping" || {
   echo -n "Adding alias to $ALIASFILE..."
   echo $ALIAS >>$ALIASFILE && echo " Done"
 }
@@ -49,7 +49,7 @@ BASHRC=~/.bashrc
   CMD="PROMPT_DIRTRIM=2"
 
   # adds CMD to ~/.bashrc if it isn't set
-  grep $CMD $BASHRC 1>/dev/null && echo "$CMD already set. Skipping..." || {
+  grep $CMD $BASHRC 1>/dev/null && echo "$CMD already set. Skipping" || {
     echo -n "Adding $CMD to $BASHRC..."
     echo -e "\n$CMDDOC\n$CMD" >>$BASHRC && echo " Done"
   }
@@ -61,7 +61,7 @@ REPLACE="deb http://it.archive"
 
 # sets ".it" mirrors only if they're not ".it" mirrors
 grep "$REPLACE" $SRCLST 1>/dev/null &&
-  echo "Mirrors in $SRCLST already set. Skipping..." ||
+  echo "Mirrors in $SRCLST already set. Skipping" ||
   {
     # assigns to FIND whichever mirror substring to replace is saved in SRCLST
     FIND=$(grep -Eom 1 "^deb http://([a-z]{2}.)?archive" $SRCLST)
