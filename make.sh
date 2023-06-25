@@ -55,6 +55,22 @@ BASHRC=~/.bashrc
   }
 }
 
+# changing mirrors in /etc/apt/sources.list to .it mirrors...
+SRCLST="/etc/apt/sources.list"
+REPLACE="deb http://it.archive"
+
+# sets .it mirrors only if they're not .it mirrors
+grep "$REPLACE" $SRCLST 1>/dev/null &&
+  echo "Mirrors in $SRCLST already set. Skipping..." ||
+  {
+    # assign to find whatever mirror is saved in the file
+    FIND=$(grep -Eom 1 "^deb http://([a-z]{2}.)?archive" $SRCLST)
+    CONTENT=$(<"$SRCLST")
+    CONTENT=${CONTENT//$FIND/$REPLACE}
+    echo -n "Changing mirrors in $SRCLST... "
+    echo "$CONTENT" | sudo tee "$SRCLST" 1>/dev/null && echo "Done"
+  }
+
 # removing the folder containing this file...
 [[ $DIR == . ]] && {
   echo -n "Removing $PWD..."
