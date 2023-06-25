@@ -36,7 +36,7 @@ grep "alias update" $ALIASFILE 1>/dev/null && echo "alias already set. Skipping.
 }
 
 # adding command to ~/.bashrc...
-CMDFILE=~/.bashrc
+BASHRC=~/.bashrc
 
 # checking bash version...
 ((${BASH_VERSION:0:1} < 4)) && {
@@ -49,9 +49,9 @@ CMDFILE=~/.bashrc
   CMD="PROMPT_DIRTRIM=2"
 
   # adds CMD to ~/.bashrc if it isn't set
-  grep $CMD $CMDFILE 1>/dev/null && echo "$CMD already set. Skipping..." || {
-    echo -n "Adding $CMD to $CMDFILE..."
-    echo -e "\n$CMDDOC\n$CMD" >>$CMDFILE && echo " Done"
+  grep $CMD $BASHRC 1>/dev/null && echo "$CMD already set. Skipping..." || {
+    echo -n "Adding $CMD to $BASHRC..."
+    echo -e "\n$CMDDOC\n$CMD" >>$BASHRC && echo " Done"
   }
 }
 
