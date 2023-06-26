@@ -14,3 +14,4 @@ sudo apt update
   apt list ?obsolete
   sudo apt autoremove -y
 }
+exit 0
