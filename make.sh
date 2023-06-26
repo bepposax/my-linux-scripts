@@ -78,4 +78,4 @@ grep "$NEW_MIRR" $SRCLST 1>/dev/null &&
   rm -rf $DIR && echo " Done"
 }
 
-echo "Restart the terminal for changes to take effect."
+echo "Restart the terminal for changes to take effect." && exit 0
