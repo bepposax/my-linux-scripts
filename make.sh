@@ -2,8 +2,13 @@
 
 DIR=$(dirname $0)
 
-# disable MOTD
-touch ~/.hushlogin
+# disabling MOTD...
+HUSH=~/.hushlogin
+
+[ -f $HUSH ] && echo "'$HUSH' exists. Skipping" || {
+  echo -n "Creating '$HUSH'..."
+  touch $HUSH && echo " Done"
+}
 
 # adding the update script...
 DEST=~/scripts
