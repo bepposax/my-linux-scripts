@@ -85,6 +85,32 @@ grep "$NEW_MIRR" $SRCLST 1>/dev/null || {
   RESTART=true
 }
 
+# changing dock's appearance if not on WSL...
+[ ! "$(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip')" ] &&
+  # checking if running on Ubuntu...
+  lsb_release -d | grep Ubuntu 1>/dev/null &&
+  {
+    # changing dock extension if extended...
+    ! gsettings get org.gnome.shell.extensions.dash-to-dock extend-height | grep false 1>/dev/null && {
+      echo -n "Changing dock extension..."
+      gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false && echo " Done"
+      CHANGES=true
+    }
+    # moving dock to bottom if not there already...
+    ! gsettings get org.gnome.shell.extensions.dash-to-dock dock-position | grep 'BOTTOM' 1>/dev/null && {
+      echo -n "Moving dock to bottom..."
+      gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM' && echo " Done"
+      CHANGES=true
+    }
+    # changing dock transparency to 80% if different...
+    ! gsettings get org.gnome.shell.extensions.dash-to-dock background-opacity | grep 0.2 1>/dev/null && {
+      echo -n "Changing dock transparency to 80%..."
+      gsettings set org.gnome.shell.extensions.dash-to-dock transparency-mode 'FIXED'
+      gsettings set org.gnome.shell.extensions.dash-to-dock background-opacity 0.2 && echo " Done"
+      CHANGES=true
+    }
+  }
+
 ! $CHANGES && ! $RESTART && echo "No changes."
 
 # removing the folder containing this file...
