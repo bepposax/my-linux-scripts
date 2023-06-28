@@ -108,6 +108,11 @@ grep "$NEW_MIRR" $SRCLST 1>/dev/null || {
       gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false && echo " Done"
       CHANGES=true
     }
+    # shrinking the dock if not shrinked...
+    ! eval "$(gsettings get org.gnome.shell.extensions.dash-to-dock custom-theme-shrink)" && {
+      echo -n "Shrinking the dock..."
+      gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-shrink true && echo " Done"
+    }
     # moving dock to bottom if not there already...
     ! gsettings get org.gnome.shell.extensions.dash-to-dock dock-position | grep 'BOTTOM' 1>/dev/null && {
       echo -n "Moving dock to bottom..."
@@ -117,7 +122,7 @@ grep "$NEW_MIRR" $SRCLST 1>/dev/null || {
     # changing dock transparency to 80% if different...
     ! gsettings get org.gnome.shell.extensions.dash-to-dock background-opacity | grep 0.2 1>/dev/null && {
       echo -n "Changing dock transparency to 80%..."
-      gsettings set org.gnome.shell.extensions.dash-to-dock transparency-mode 'FIXED'
+      gsettings set org.gnome.shell.extensions.dash-to-dock transparency-mode 'DYNAMIC'
       gsettings set org.gnome.shell.extensions.dash-to-dock background-opacity 0.2 && echo " Done"
       CHANGES=true
     }
