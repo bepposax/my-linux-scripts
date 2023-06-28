@@ -11,8 +11,8 @@ echo "---"
   echo "Upgrading packages..."
   apt list --upgradeable
   sudo apt upgrade -y
+  echo "---"
 }
-echo "---"
 # Rimuove i pacchetti obsoleti solo se ci sono pacchetti obsoleti
 if (($(apt list -- ?obsolete 2>/dev/null | wc -l) > 1)); then {
   echo "Removing obsolete packages..."
