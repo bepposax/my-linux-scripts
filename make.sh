@@ -44,7 +44,7 @@ else {
 }; fi
 
 # adds the ALIAS line inside ALIASFILE if it doesn't exist
-ALIAS=("alias update='bash $DEST/$SCRIPT'")
+ALIAS=("alias update='sudo bash $DEST/$SCRIPT'")
 
 if grep "alias update" $ALIASFILE 1>/dev/null; then
   echo "\"${ALIAS[*]}\" already set. Skipping"
