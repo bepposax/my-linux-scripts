@@ -2,21 +2,20 @@
 
 echo "Cleaning package cache..."
 sudo apt-get autoclean
-echo "---"
-echo "Checking updates..."
+
+echo -e "---\nChecking updates..."
 sudo apt update
-echo "---"
+
 # Installa gli aggiornamenti disponibili solo se ci sono nuovi aggiornamenti
 (($(apt list --upgradeable 2>/dev/null | wc -l) > 1)) && {
-  echo "Upgrading packages..."
+  echo -e "---\nUpgrading packages..."
   apt list --upgradeable
   sudo apt upgrade -y
-  echo "---"
 }
 # Rimuove i pacchetti obsoleti solo se ci sono pacchetti obsoleti
 if (($(apt list -- ?obsolete 2>/dev/null | wc -l) > 1)); then {
-  echo "Removing obsolete packages..."
+  echo -e "---\nRemoving obsolete packages..."
   apt list -- ?obsolete
   sudo apt autoremove -y
-}; else echo "No obsolete packages found."; fi
+}; else echo -e "---\nNo obsolete packages found."; fi
 exit 0
