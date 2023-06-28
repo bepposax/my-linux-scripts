@@ -90,9 +90,21 @@ grep "$NEW_MIRR" $SRCLST 1>/dev/null || {
   # checking if running on Ubuntu...
   lsb_release -d | grep Ubuntu 1>/dev/null &&
   {
-    # changing dock extension if extended...
-    ! gsettings get org.gnome.shell.extensions.dash-to-dock extend-height | grep false 1>/dev/null && {
-      echo -n "Changing dock extension..."
+    # turning on dock 'autohide' if not on...
+    ! eval "$(gsettings get org.gnome.shell.extensions.dash-to-dock autohide)" && {
+      echo -n "Turning on dock 'autohide'..."
+      gsettings set org.gnome.shell.extensions.dash-to-dock autohide true && echo " Done"
+      CHANGES=true
+    }
+    # turning off 'dock-fixed' if not off...
+    eval "$(gsettings get org.gnome.shell.extensions.dash-to-dock dock-fixed)" && {
+      echo -n "Turning off 'dock-fixed'..."
+      gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false && echo " Done"
+      CHANGES=true
+    }
+    # turning off extended dock if extended...
+    eval "$(gsettings get org.gnome.shell.extensions.dash-to-dock extend-height)" && {
+      echo -n "Turning off extended dock..."
       gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false && echo " Done"
       CHANGES=true
     }
