@@ -112,6 +112,7 @@ grep "$NEW_MIRR" $SRCLST 1>/dev/null || {
     ! eval "$(gsettings get org.gnome.shell.extensions.dash-to-dock custom-theme-shrink)" && {
       echo -n "Shrinking the dock..."
       gsettings set org.gnome.shell.extensions.dash-to-dock custom-theme-shrink true && echo " Done"
+      CHANGES=true
     }
     # moving dock to bottom if not there already...
     ! gsettings get org.gnome.shell.extensions.dash-to-dock dock-position | grep 'BOTTOM' 1>/dev/null && {
