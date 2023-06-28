@@ -28,7 +28,7 @@ SCRIPT=update.sh
 [ -f $DEST/$SCRIPT ] || {
   echo -n "Copying '$DIR/$SCRIPT' in '$DEST'..."
   cp "$DIR"/$SCRIPT $DEST && echo " Done"
-  (! $CHANGES) || CHANGES=true
+  CHANGES=true
 }
 
 # setting alias to run the update script...
