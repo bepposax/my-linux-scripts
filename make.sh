@@ -88,13 +88,13 @@ grep "$NEW_MIRR" $SRCLST 1>/dev/null || {
 ! $CHANGES && ! $RESTART && echo "No changes."
 
 # removing the folder containing this file...
-# if [[ $DIR == . ]]; then {
-#   echo -n "Removing '$PWD'..."
-#   rm -rf "$PWD" && echo " Done"
-# }; else {
-#   echo -n "Removing '$DIR'..."
-#   rm -rf "$DIR" && echo " Done"
-# }; fi
+if [[ $DIR == . ]]; then {
+  echo -n "Removing '$PWD'..."
+  rm -rf "$PWD" && echo " Done"
+}; else {
+  echo -n "Removing '$DIR'..."
+  rm -rf "$DIR" && echo " Done"
+}; fi
 
 $RESTART && echo "Restart the terminal for changes to take effect."
 
