@@ -3,6 +3,7 @@
 DIR=$(dirname "$0")
 RESTART=false
 CHANGES=false
+RELOG=false
 
 # disabling MOTD...
 HUSH=~/.hushlogin
@@ -85,11 +86,38 @@ grep "$NEW_MIRR" $SRCLST 1>/dev/null || {
   RESTART=true
 }
 
-# changing dock's appearance if not on WSL...
+# if not on WSL...
 [ ! "$(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip')" ] &&
-  # checking if running on Ubuntu...
+  # and running on Ubuntu...
   lsb_release -d | grep Ubuntu 1>/dev/null &&
   {
+    # installing gnome-shell-extensions if not installed...
+    (($(apt list --installed gnome-shell-extensions 2>/dev/null | wc -l) <= 1)) && {
+      echo "Installing 'gnome-shell-extensions'..."
+      sudo apt-get -qq install gnome-shell-extensions
+      RELOG=true
+    }
+    # installing gnome-shell-extension-installer if not installed...
+    [ -f /usr/bin/gnome-shell-extension-installer ] || {
+      echo -n "Installing 'gnome-shell-extension-installer'..."
+      wget -q gnome-shell-extension-installer "https://github.com/brunelli/gnome-shell-extension-installer/raw/master/gnome-shell-extension-installer"
+      chmod +x gnome-shell-extension-installer
+      sudo mv gnome-shell-extension-installer /usr/bin/ && echo " Done"
+      CHANGES=true
+    }
+    EXTPATH="$HOME/.local/share/gnome-shell/extensions"
+    # installing 'dash-to-dock' gnome extension if not installed...
+    [ ! -d "$EXTPATH/dash-to-dock@micxgx.gmail.com" ] && {
+      echo -n "Installing 'Dash To Dock' gnome extension..."
+      gnome-shell-extension-installer 307 --yes &>/dev/null && echo " Done"
+      RELOG=true
+    }
+    # installing 'hidetopbar' gnome extension if not installed...
+    [ ! -d "$EXTPATH/hidetopbar@mathieu.bidon.ca" ] && {
+      echo -n "Installing 'Hide Top Bar' gnome extension..."
+      gnome-shell-extension-installer 545 --yes &>/dev/null && echo " Done"
+      RELOG=true
+    }
     # turning on dock 'autohide' if not on...
     ! eval "$(gsettings get org.gnome.shell.extensions.dash-to-dock autohide)" && {
       echo -n "Turning on dock 'autohide'..."
@@ -129,7 +157,7 @@ grep "$NEW_MIRR" $SRCLST 1>/dev/null || {
     }
   }
 
-! $CHANGES && ! $RESTART && echo "No changes."
+! $CHANGES && ! $RESTART && ! $RELOG echo "No changes."
 
 # removing the folder containing this file...
 if [[ $DIR == . ]]; then {
@@ -140,6 +168,12 @@ if [[ $DIR == . ]]; then {
   rm -rf "$DIR" && echo " Done"
 }; fi
 
-$RESTART && echo "Restart the terminal for changes to take effect."
+$RESTART && ! $RELOG && echo "Restart the terminal for changes to take effect."
+
+$RELOG && {
+  echo "Restart the shell for changes to take effect."
+  read -rp "Restart now? (y/n): " choice
+}
+[[ $choice = y* || $choice = Y* ]] && killall -SIGQUIT gnome-shell
 
 exit 0
