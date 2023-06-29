@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Cleaning package cache..."
+sudo echo "Cleaning package cache..."
 sudo apt-get autoclean
 
 echo -e "---\nChecking updates..."

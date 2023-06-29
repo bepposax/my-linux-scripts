@@ -42,11 +42,11 @@ ALIASFILE=~/.bash_aliases
 }
 
 # adds the ALIAS line inside ALIASFILE if it doesn't exist
-ALIAS=("alias update='sudo bash $DEST/$SCRIPT'")
+ALIAS="alias update='$DEST/$SCRIPT'"
 
 grep "alias update" $ALIASFILE 1>/dev/null || {
-  echo -n "Adding \"${ALIAS[*]}\" to '$ALIASFILE'..."
-  echo "${ALIAS[@]}" >>$ALIASFILE && echo " Done"
+  echo -n "Adding \"$ALIAS\" to '$ALIASFILE'..."
+  echo "$ALIAS" >>$ALIASFILE && echo " Done"
   RESTART=true
 }
 
