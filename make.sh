@@ -73,14 +73,14 @@ BASHRC=~/.bashrc
   }
 }
 
-# changing mirrors in /etc/apt/sources.list to ".it" mirrors...
-SRCLST="/etc/apt/sources.list"
-NEW_MIRR="deb http://it.archive"
+# changing mirrors in /etc/apt/sources.list.d/ubuntu.sources to ".it" mirrors...
+SRCLST="/etc/apt/sources.list.d/ubuntu.sources"
+NEW_MIRR="http://it.archive"
 
 # sets ".it" mirrors only if they're not ".it" mirrors
 grep "$NEW_MIRR" $SRCLST 1>/dev/null || {
   # assigns to MIRR whichever mirror "head" is currently saved in SRCLST
-  MIRR=$(grep -Eom 1 "^deb http://([a-z]{2}.)?archive" $SRCLST)
+  MIRR=$(grep -Eom 1 "http://([a-z]{2}.)?archive" $SRCLST)
   echo -n "Changing mirrors in '$SRCLST'... "
   sudo sed -i "s+$MIRR+$NEW_MIRR+g" $SRCLST && echo "Done"
   RESTART=true
