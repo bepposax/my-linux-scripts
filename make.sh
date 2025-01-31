@@ -32,20 +32,27 @@ SCRIPT=update.sh
   CHANGES=true
 }
 
-# setting alias to run the update script...
+# setting aliases...
 ALIASFILE=~/.bash_aliases
 
-# creates ALIASFILE if it doesnìt exist
+# creates ALIASFILE if it doesn't exist
 [ -f $ALIASFILE ] || {
   echo -n "Creating '$ALIASFILE'..."
   touch $ALIASFILE && echo " Done"
   CHANGES=true
 }
 
-# adds the ALIAS line inside ALIASFILE if it doesn't exist
+# adds update alias if it doesn't exist
 ALIAS="alias update='$DEST/$SCRIPT'"
-
 grep "alias update" $ALIASFILE 1>/dev/null || {
+  echo -n "Adding \"$ALIAS\" to '$ALIASFILE'..."
+  echo "$ALIAS" >>$ALIASFILE && echo " Done"
+  RESTART=true
+}
+
+# adds ccat alias if it doesn't exist
+ALIAS="alias ccat='pygmentize -g -P style=material'"
+grep "alias ccat" $ALIASFILE 1>/dev/null || {
   echo -n "Adding \"$ALIAS\" to '$ALIASFILE'..."
   echo "$ALIAS" >>$ALIASFILE && echo " Done"
   RESTART=true
