@@ -6,7 +6,7 @@ CHANGES=false
 RELOG=false
 
 # disabling MOTD...
-HUSH=~/.hushlogin
+HUSH="$HOME/.hushlogin"
 
 [ -f $HUSH ] || {
   echo -n "Creating '$HUSH'..."
@@ -15,7 +15,7 @@ HUSH=~/.hushlogin
 }
 
 # adding the update script...
-DEST=~/scripts
+DEST="$HOME/scripts"
 SCRIPT=update.sh
 
 # creates DEST if it doesn't exist
@@ -33,33 +33,30 @@ SCRIPT=update.sh
 }
 
 # setting aliases...
-ALIASFILE=~/.bash_aliases
+ALIASFILE="$HOME/.bash_aliases"
+ALIASES=(
+  "alias update='$DEST/$SCRIPT'"
+  "ccat() { pygmentize -g -P style=material \$@ | nl --body-numbering=a; }"
+)
 
-# creates ALIASFILE if it doesn't exist
-[ -f $ALIASFILE ] || {
-  echo -n "Creating '$ALIASFILE'..."
-  touch $ALIASFILE && echo " Done"
+# creates the alias file if it doesn't exist
+[ -f "$ALIASFILE" ] || {
+  echo -n "Creating "$ALIASFILE"..."
+  touch "$ALIASFILE" && echo " Done"
   CHANGES=true
 }
 
-# adds update alias if it doesn't exist
-ALIAS="alias update='$DEST/$SCRIPT'"
-grep "alias update" $ALIASFILE 1>/dev/null || {
-  echo -n "Adding \"$ALIAS\" to '$ALIASFILE'..."
-  echo "$ALIAS" >>$ALIASFILE && echo " Done"
-  RESTART=true
-}
-
-# adds ccat alias if it doesn't exist
-ALIAS="alias ccat='pygmentize -g -P style=material'"
-grep "alias ccat" $ALIASFILE 1>/dev/null || {
-  echo -n "Adding \"$ALIAS\" to '$ALIASFILE'..."
-  echo "$ALIAS" >>$ALIASFILE && echo " Done"
-  RESTART=true
-}
+# adds aliases to ALIASFILE if they don't exist
+for alias in "${ALIASES[@]}"; do
+  grep "$alias" "$ALIASFILE" 1>/dev/null || {
+    echo -n "Adding "$alias" to "$ALIASFILE"..."
+    echo "$alias" >>"$ALIASFILE" && echo " Done"
+    RESTART=true
+  }
+done
 
 # adding command to ~/.bashrc...
-BASHRC=~/.bashrc
+BASHRC="$HOME/.bashrc"
 
 # checking bash version...
 ((${BASH_VERSION:0:1} < 4)) && {
