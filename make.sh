@@ -36,7 +36,7 @@ SCRIPT=update.sh
 ALIASFILE="$HOME/.bash_aliases"
 ALIASES=(
   "alias update='$DEST/$SCRIPT'"
-  "ccat() { pygmentize -g -P style=material \$@ | nl -b a; }"
+  "ccat() { pygmentize -g -P style=material \"\$@\" | nl -b a; }"
 )
 
 # creates the alias file if it doesn't exist
@@ -51,7 +51,11 @@ for alias in "${ALIASES[@]}"; do
   grep "$alias" "$ALIASFILE" 1>/dev/null || {
     echo -n "Adding "$alias" to "$ALIASFILE"..."
     echo "$alias" >>"$ALIASFILE" && echo " Done"
-    RESTART=true
+    # if not in a subshell...
+    [ $SHLVL == 1 ] && {
+      echo -n "Sourcing "$ALIASFILE"..."
+      . "$ALIASFILE" && echo " Done"
+    } || RESTART=true
   }
 done
 
@@ -188,4 +192,4 @@ $RELOG && {
 }
 [[ $choice = y* || $choice = Y* ]] && killall -SIGQUIT gnome-shell
 
-exit 0
+[ $SHLVL != 1 ] && exit 0
