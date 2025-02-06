@@ -36,7 +36,7 @@ SCRIPT=update.sh
 ALIASFILE="$HOME/.bash_aliases"
 ALIASES=(
   "alias update='$DEST/$SCRIPT'"
-  "ccat() { pygmentize -g -P style=material \"\$@\" | nl -b a; }"
+  "ccat() { pygmentize -g -P style=material \"\$@\" | nl -b a -w 4; }"
 )
 
 # creates the alias file if it doesn't exist
